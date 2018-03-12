@@ -18,7 +18,7 @@ class ArrayStore implements Store
 
     public function increment($key, $increment = 1)
     {
-        if (!array_key_exists($key, $this->storage)) {
+        if (! array_key_exists($key, $this->storage)) {
             $this->storage[$key] = 0;
         }
         $this->storage[$key] = $this->storage[$key] + $increment;
@@ -33,5 +33,4 @@ class ArrayStore implements Store
     {
         return $this->storage;
     }
-
 }
