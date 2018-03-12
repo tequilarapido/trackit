@@ -2,8 +2,8 @@
 
 namespace Tequilarapido\TrackIt;
 
-use Illuminate\Support\ServiceProvider;
 use Tequilarapido\TrackIt\Store\Store;
+use Illuminate\Support\ServiceProvider;
 
 class TrackItServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,7 @@ class TrackItServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/trackit.php' => config_path('trackit.php'),
+            __DIR__.'/../config/trackit.php' => config_path('trackit.php'),
         ]);
     }
 
@@ -22,7 +22,7 @@ class TrackItServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/trackit.php', 'trackit');
+        $this->mergeConfigFrom(__DIR__.'/../config/trackit.php', 'trackit');
 
         $this->app->bind(Store::class, $this->getConfiguredStoreClass());
     }
@@ -31,7 +31,7 @@ class TrackItServiceProvider extends ServiceProvider
     {
         $driver = ucfirst($this->app['config']['trackit']['store']['driver']);
 
-        if (!class_exists($class = 'Tequilarapido\\TrackIt\\Store\\' . $driver . 'Store')) {
+        if (! class_exists($class = 'Tequilarapido\\TrackIt\\Store\\'.$driver.'Store')) {
             throw new \Exception("Cannot find track it store implementation for driver [$driver]");
         }
 
