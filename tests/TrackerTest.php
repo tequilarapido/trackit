@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Tequilarapido\TrackIt\Store\ArrayStore;
+use Tequilarapido\TrackIt\Tracker;
 use Tequilarapido\TrackIt\Store\Store;
 use Tequilarapido\TrackIt\Tests\TestCase;
-use Tequilarapido\TrackIt\Tracker;
+use Tequilarapido\TrackIt\Store\ArrayStore;
 use Tequilarapido\TrackIt\UndefinedTrackerConstant;
 
 class TrackerTest extends TestCase
@@ -18,8 +18,7 @@ class TrackerTest extends TestCase
         app()->bind(Store::class, ArrayStore::class);
 
         // Create tracker instance.
-        $this->tracker = new class() extends Tracker
-        {
+        $this->tracker = new class() extends Tracker {
             const CURSOR = 'cursor';
         };
         $this->tracker->setPrefix('prefix')->setUid('uid');
@@ -29,7 +28,7 @@ class TrackerTest extends TestCase
     public function it_sets_values_with_correctly_prefixed_keys()
     {
         $this->tracker->set('something', 100);
-                    
+
         $this->assertTrue($this->tracker->exists('prefix:uid:something'));
     }
 
@@ -48,7 +47,6 @@ class TrackerTest extends TestCase
 
         $this->assertEquals(['one' => 'value_one', 'two' => 'value_two'], $this->tracker->jsonGet('something'));
     }
-
 
     /** @test */
     public function it_increments_corretly_by_one()
@@ -104,5 +102,3 @@ class TrackerTest extends TestCase
         $this->tracker->incrementSomething();
     }
 }
-
-
