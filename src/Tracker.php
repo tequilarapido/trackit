@@ -1,6 +1,7 @@
 <?php
 
 namespace Tequilarapido\TrackIt;
+
 use Tequilarapido\TrackIt\Store\Store;
 
 abstract class Tracker
@@ -9,7 +10,7 @@ abstract class Tracker
 
     protected $prefix = 'prefix';
 
-    /** @var  Store */
+    /** @var Store */
     protected $store;
 
     public function setUid($uid)
@@ -64,7 +65,7 @@ abstract class Tracker
     /** @return Store */
     public function store()
     {
-        if (!$this->store) {
+        if (! $this->store) {
             $this->store = app()->make(Store::class);
         }
 
@@ -81,13 +82,15 @@ abstract class Tracker
         // setSomething(value)
         if (starts_with($method, 'set')) {
             $this->dynamicSet($method, $parameters[0]);
-            return null;
+
+            return;
         }
 
         // incrementSomething(value)
         if (starts_with($method, 'increment')) {
             $this->dynamicIncrement($method, $parameters);
-            return null;
+
+            return;
         }
 
         // jsonGetSomething()
@@ -98,7 +101,8 @@ abstract class Tracker
         // jsonSetSomething(value)
         if (starts_with($method, 'jsonSet')) {
             $this->dynamicJsonSet($method, $parameters[0]);
-            return null;
+
+            return;
         }
 
         throw new UndefinedTrackerConstant("Uknown method called on tracker. [$method]");
@@ -107,7 +111,7 @@ abstract class Tracker
     protected function dynamicGet($method)
     {
         $key = strtoupper(str_after($method, 'get'));
-        if (!defined("static::{$key}")) {
+        if (! defined("static::{$key}")) {
             throw new UndefinedTrackerConstant("Tracker: Undefined key constant [{$key}]");
         }
 
@@ -117,7 +121,7 @@ abstract class Tracker
     protected function dynamicSet($method, $value)
     {
         $key = strtoupper(str_after($method, 'set'));
-        if (!defined("static::{$key}")) {
+        if (! defined("static::{$key}")) {
             throw new UndefinedTrackerConstant("Tracker: Undefined key constant [{$key}]");
         }
 
@@ -127,7 +131,7 @@ abstract class Tracker
     protected function dynamicJsonGet($method)
     {
         $key = strtoupper(str_after($method, 'jsonGet'));
-        if (!defined("static::{$key}")) {
+        if (! defined("static::{$key}")) {
             throw new UndefinedTrackerConstant("Tracker: Undefined key constant [{$key}]");
         }
 
@@ -137,7 +141,7 @@ abstract class Tracker
     protected function dynamicJsonSet($method, $value)
     {
         $key = strtoupper(str_after($method, 'jsonSet'));
-        if (!defined("static::{$key}")) {
+        if (! defined("static::{$key}")) {
             throw new UndefinedTrackerConstant("Tracker: Undefined key constant [{$key}]");
         }
 
@@ -147,7 +151,7 @@ abstract class Tracker
     protected function dynamicIncrement($method, $parameters)
     {
         $key = strtoupper(str_after($method, 'increment'));
-        if (!defined("static::{$key}")) {
+        if (! defined("static::{$key}")) {
             throw new UndefinedTrackerConstant("Tracker: Undefined key constant [{$key}]");
         }
 
