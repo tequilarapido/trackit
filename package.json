@@ -9,6 +9,7 @@
     "release-major": "standard-version --release-as major --no-verify"
   },
   "dependencies": {
+    "mem": "^4.0.0",
     "standard-version": "^4.4.0"
   }
 }
